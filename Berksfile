@@ -1,6 +1,9 @@
 # source 'http://cookbooks.opscode.com/api/v1/cookbooks'
 # source 'https://api.berkshelf.com'
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 berkshelf_api '/etc/berks' do
   version '1.1.0'
   config do
