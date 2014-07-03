@@ -24,7 +24,7 @@ attribute :path, :kind_of => String, :name_attribute => true
 attribute :template, :kind_of => String, :default => 'gunicorn.py.erb'
 attribute :cookbook, :kind_of => String, :default => 'gunicorn'
 
-attribute :listen, :kind_of => String, :default => '0.0.0.0:8000'
+attribute :listen, :kind_of => String, :default => '0.0.0.0:8080'
 attribute :backlog, :kind_of => Integer, :default => 2048
 attribute :preload_app, :kind_of => [TrueClass, FalseClass], :default => false
 
