@@ -20,6 +20,6 @@
 
 include_recipe 'python'
 
-gunicorn_install "gunicorn" do
+pip install "gunicorn" do
   virtualenv node['gunicorn']['virtualenv']
 end
