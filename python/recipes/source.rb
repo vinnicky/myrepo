@@ -28,7 +28,7 @@ packages = value_for_platform(
   )
 
 packages.each do |dev_pkg|
-  package dev_pkg
+  packages dev_pkg
 end
 
 version = node['python']['version']
