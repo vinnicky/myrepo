@@ -18,7 +18,7 @@
 # limitations under the License.
 #
 
-action :enable do
+action :run do
   execute "supervisorctl update" do
     action :nothing
     user "root"
