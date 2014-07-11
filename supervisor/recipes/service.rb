@@ -54,7 +54,7 @@ attribute :directory, :kind_of => [String, NilClass], :default => nil
 attribute :umask, :kind_of => [NilClass, String], :default => nil
 attribute :serverurl, :kind_of => String, :default => 'AUTO'
 
-action :enable do
+action :run do
   execute "supervisorctl update" do
     action :nothing
     user "root"
