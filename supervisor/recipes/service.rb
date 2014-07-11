@@ -17,7 +17,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-actions :enable, :disable, :start, :stop, :restart, :reload
+action :enable, :disable, :start, :stop, :restart, :reload
 
 def initialize(*args)
   super
@@ -54,7 +54,7 @@ attribute :directory, :kind_of => [String, NilClass], :default => nil
 attribute :umask, :kind_of => [NilClass, String], :default => nil
 attribute :serverurl, :kind_of => String, :default => 'AUTO'
 
-action :run do
+action :enable do
   execute "supervisorctl update" do
     action :nothing
     user "root"
