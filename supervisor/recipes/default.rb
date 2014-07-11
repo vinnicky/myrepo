@@ -20,7 +20,7 @@
 include_recipe "python"
 
 python_pip "supervisor" do
-  action :easy_install
+  action :upgrade
   version node['supervisor']['version'] if node['supervisor']['version']
 end
 
