@@ -19,7 +19,7 @@
 #
 
 configure_options = node['python']['configure_options'].join(" ")
-make_options = node['python']['make_options'].join(" ")
+#make_options = node['python']['make_options'].join(" ")
 
 packages = value_for_platform(
     ["centos","redhat","fedora"] => 
@@ -47,7 +47,7 @@ bash "build-and-install-python" do
   code <<-EOF
   tar -jxvf Python-#{version}.tar.bz2
   (cd Python-#{version} && ./configure #{configure_options})
-  (cd Python-#{version} && make && make install)
+  (cd Python-#{version} && make && make)
   EOF
   not_if { ::File.exists?(install_path) }
 end
