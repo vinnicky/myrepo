@@ -1,9 +1,9 @@
 #
-# Author:: Seth Chisamore <schisamo@opscode.com>
-# Cookbook Name:: python
-# Recipe:: package
+# Author:: Noah Kantrowitz <noah@opscode.com>
+# Cookbook Name:: postgresql
+# Library:: default
 #
-# Copyright 2011, Opscode, Inc.
+# Copyright:: 2011, Opscode, Inc <legal@opscode.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,19 +18,23 @@
 # limitations under the License.
 #
 
-python_pkgs = value_for_platform(
-  ["debian","ubuntu"] => {
-    "default" => ["python","python-dev"]
-  },
-  ["centos","redhat","fedora"] => {
-    "default" => ["python26","python26-devel"]
-  },
-  "default" => ["python","python-dev"]
-)
+class Chef
+  class Provider
+    class Postgresql
+      module Base
 
-python_pkgs.each do |pkg|
-  package pkg do
-    action :install
+        include Chef::Mixin::ShellOut
+
+        def quote(str)
+          str.gsub("\\", "\\\\").gsub('"', '\\"')
+        end
+
+        def query(sql, database=nil)
+          cmd = shell_out!(%Q{psql -t#{database ? %Q{ -d "#{quote(database)}"} : ""} -c "#{quote(sql)}"}, :user => 'postgres')
+          cmd.stdout.strip
+        end
+
+      end
+    end
   end
 end
-
