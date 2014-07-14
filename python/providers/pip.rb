@@ -128,7 +128,7 @@ end
 
 def upgrade_package(name, version)
   v = "==#{version}" unless version.eql?('latest')
-  shell_out!("pip install --upgrade#{expand_options(@new_resource.options)}#{expand_virtualenv(can_haz_virtualenv(@new_resource))} #{@new_resource.name}#{v}")
+  shell_out!("pip install --upgrade=#{expand_options(@new_resource.options)}#{expand_virtualenv(can_haz_virtualenv(@new_resource))} #{@new_resource.name}#{v}")
 end
 
 def remove_package(name, version)
