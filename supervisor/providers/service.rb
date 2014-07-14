@@ -17,7 +17,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-actions :enable, :disable, :start, :stop, :restart, :reload
+action :enable, :disable, :start, :stop, :restart, :reload
 
 def initialize(*args)
   super
