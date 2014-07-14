@@ -21,7 +21,7 @@ action :enable, :disable, :start, :stop, :restart, :reload
 
 def initialize(*args)
   super
-  @action = [:enable, :start]
+  @action = [:enable, :start, :disable, :stop, :restart, :reload]
 end
 
 attribute :service_name, :kind_of => String, :name_attribute => true
