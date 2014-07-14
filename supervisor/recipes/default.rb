@@ -19,13 +19,6 @@
 
 include_recipe "python"
 
-# foodcritic FC023: we prefer not having the resource on non-smartos
-if platform_family?("smartos")
-  package "py27-expat" do
-    action :install
-  end
-end
-
 python_pip "supervisor" do
   action :upgrade
   version node['supervisor']['version'] if node['supervisor']['version']
@@ -37,19 +30,11 @@ directory node['supervisor']['dir'] do
   mode "755"
 end
 
-template node['supervisor']['conffile'] do
+template "/etc/supervisord.conf" do
   source "supervisord.conf.erb"
   owner "root"
   group "root"
   mode "644"
-  variables({
-    :inet_port => node['supervisor']['inet_port'],
-    :inet_username => node['supervisor']['inet_username'],
-    :inet_password => node['supervisor']['inet_password'],
-    :supervisord_minfds => node['supervisor']['minfds'],
-    :supervisord_minprocs => node['supervisor']['minprocs'],
-    :supervisor_version => node['supervisor']['version'],
-  })
 end
 
 directory node['supervisor']['log_dir'] do
@@ -59,58 +44,23 @@ directory node['supervisor']['log_dir'] do
   recursive true
 end
 
-template "/etc/default/supervisor" do
-  source "debian/supervisor.default.erb"
-  owner "root"
-  group "root"
-  mode "644"
-  only_if { platform_family?("debian") }
-end
-
-init_template_dir = value_for_platform_family(
-  ["rhel", "fedora"] => "rhel",
-  "debian" => "debian"
-)
-
 case node['platform']
-when "amazon", "centos", "debian", "fedora", "redhat", "ubuntu"
+when "debian", "ubuntu"
   template "/etc/init.d/supervisor" do
-    source "#{init_template_dir}/supervisor.init.erb"
-    owner "root"
-    group "root"
-    mode "755"
-    variables({
-      # TODO: use this variable in the debian platform-family template
-      # instead of altering the PATH and calling "which supervisord".
-      :supervisord => "#{node['python']['prefix_dir']}/bin/supervisord"
-    })
-  end
-
-  service "supervisor" do
-    supports :status => true, :restart => true
-    action [:enable, :start]
-  end
-when "smartos"
-  directory "/opt/local/share/smf/supervisord" do
+    source "debian/supervisor.init.erb"
     owner "root"
     group "root"
     mode "755"
   end
 
-  template "/opt/local/share/smf/supervisord/manifest.xml" do
-    source "manifest.xml.erb"
+  template "/etc/default/supervisor" do
+    source "debian/supervisor.default.erb"
     owner "root"
     group "root"
     mode "644"
-    notifies :run, "execute[svccfg-import-supervisord]", :immediately
   end
 
-  execute "svccfg-import-supervisord" do
-    command "svccfg import /opt/local/share/smf/supervisord/manifest.xml"
-    action :nothing
-  end
-
-  service "supervisord" do
-    action [:enable]
+  service "supervisor" do
+    action [:enable, :start]
   end
 end
