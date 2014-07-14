@@ -37,7 +37,6 @@ else
                   "default" => ["python","python-dev"]
                 )
 end
-=======
 python_pkgs = value_for_platform(
   ["debian","ubuntu"] => {
     "default" => ["python","python-dev"]
