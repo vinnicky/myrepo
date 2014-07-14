@@ -19,7 +19,7 @@
 #
 
 configure_options = node['python']['configure_options'].join(" ")
-make_options = node['python']['make_options'].join(" ")
+#make_options = node['python']['make_options'].join(" ")
 
 packages = value_for_platform(
     ["centos","redhat","fedora"] => 
