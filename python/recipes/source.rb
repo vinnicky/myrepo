@@ -19,13 +19,13 @@
 #
 
 configure_options = node['python']['configure_options'].join(" ")
-make_options = node['python']['make_options'].join(" ")
+#make_options = node['python']['make_options'].join(" ")
 
 packages = value_for_platform(
     ["centos","redhat","fedora"] => 
         {"default" => ["openssl-devel","bzip2-devel","zlib-devel","expat-devel","db4-devel","sqlite-devel","ncurses-devel","readline-devel"]},
     "default" => 
-        ["libssl-dev","libbz2-dev","zlib1g-dev","libexpat1-dev","libdb4.8-dev","libsqlite3-dev","libncursesw5-dev","libncurses5-dev","libreadline-dev"]
+        ["libssl-dev","libbz2-dev","zlib1g-dev","libexpat1-dev","libdb-dev","libsqlite3-dev","libncursesw5-dev","libncurses5-dev","libreadline-dev"]
   )
 
 packages.each do |dev_pkg|
@@ -47,7 +47,7 @@ bash "build-and-install-python" do
   code <<-EOF
   tar -jxvf Python-#{version}.tar.bz2
   (cd Python-#{version} && ./configure #{configure_options})
-  (cd Python-#{version} && make && make install)
+  (cd Python-#{version} && make && make)
   EOF
   not_if { ::File.exists?(install_path) }
 end

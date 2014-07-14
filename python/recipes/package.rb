@@ -18,6 +18,7 @@
 # limitations under the License.
 #
 
+<<<<<<< HEAD
 major_version = node['platform_version'].split('.').first.to_i
 
 # COOK-1016 Handle RHEL/CentOS namings of python packages, by installing EPEL
@@ -36,6 +37,17 @@ else
                   "default" => ["python","python-dev"]
                 )
 end
+=======
+python_pkgs = value_for_platform(
+  ["debian","ubuntu"] => {
+    "default" => ["python","python-dev"]
+  },
+  ["centos","redhat","fedora"] => {
+    "default" => ["python","python-devel"]
+  },
+  "default" => ["python","python-dev"]
+)
+>>>>>>> origin/master
 
 python_pkgs.each do |pkg|
   package pkg do
