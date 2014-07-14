@@ -19,7 +19,7 @@
 #
 action :enable, :disable, :start, :stop, :restart, :reload
 
-def initialize(*args)
+def initialize(:enable, :disable, :start, :stop, :restart, :reload)
   super
   @action = [:enable, :start, :disable, :stop, :restart, :reload]
 end
