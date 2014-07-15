@@ -43,3 +43,10 @@ remote_file "#{Chef::Config[:file_cache_path]}/Python-#{version}.tar.bz2" do
 end
 
 
+bash "build-and-install-python" do
+  cwd Chef::Config[:file_cache_path]
+  code <<-EOF
+  tar -jxvf Python-#{version}.tar.bz2
+  EOF
+  not_if { ::File.exists?(install_path) }
+end
