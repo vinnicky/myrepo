@@ -46,6 +46,8 @@ bash "build-and-install-python" do
   cwd Chef::Config[:file_cache_path]
   code <<-EOF
   tar -jxvf Python-#{version}.tar.bz2
+  (cd Python-#{version} && ./configure #{configure_options})
+  (cd Python-#{version} && make && make install)
   EOF
   not_if { ::File.exists?(install_path) }
 end
