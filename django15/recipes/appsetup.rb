@@ -1,6 +1,6 @@
 node[:deploy].each do |app_name, deploy|
 
-  script "install_composer" do
+  script "install composer" do
     interpreter "bash"
     user "root"
     cwd "#{deploy[:deploy_to]}/current"
